@@ -34,9 +34,9 @@ Given a Ghost Legs diagram, find out which top label is connected with which bot
   a line of the Ghost Legs diagram.
 ```
 w, h = [int(i) for i in input().split()]
-top = []
-bottom = []
-legs = []
+top = [] # a list of start points
+bottom = [] # a list of end points
+legs = [] # a list of list where each sublist is a line of Ghost Legs diagram
 for i in range(h):
     line = input()
     if i == 0:
@@ -46,7 +46,8 @@ for i in range(h):
         bottom.append(line)
         bottom = list(bottom[0].replace(' ', ''))
     else:
-        line = line.replace('|--|', '|--  |')
+        # here we make an ugly trick to get the transition we want as '|--|  |' -> ['|--', '|', '|']
+        line = line.replace('|--|', '|--  |') 
         line = line.split('  ')
         legs.append(line)
 ```
@@ -60,16 +61,16 @@ Here, the line ```line = line.replace('|--|', '|--  |')``` is to extract better 
 
  * Now we will take every start point and traverse the Ghost Legs diagram to get its end point. the point will jump to its adjencent legs depend on whether there is a connection between those two legs.
 ```
-result = []
+result = [] # a list of connected pairs
 for i in range(len(top)):
     pair = ''
     pair += top[i]
-    end = i
+    end = i # assume that there is no connection and it goes straightly to the bottom
     for j in range(len(legs)):
-        if len(legs[j][end]) == 3:
+        if len(legs[j][end]) == 3: # if there is connection between this leg and the one after it
             end = end + 1
         elif end != 0:
-            if len(legs[j][end-1]) == 3:
+            if len(legs[j][end-1]) == 3: # if there is connection between this leg and the one before it
                 end = end - 1
     pair += bottom[end]
     result.append(pair)
