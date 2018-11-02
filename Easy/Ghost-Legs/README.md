@@ -23,6 +23,7 @@ In the example diagram, when you start from A, you will end up in 2. Starting fr
 Given a Ghost Legs diagram, find out which top label is connected with which bottom label. List all connected pairs.
 
 **Input**: the Ghost Legs diagram as above
+
 **Ouput**: List of all connected pairs, as in the example: ['A2', 'B1', 'C3']
 
 ## Solution
@@ -31,3 +32,45 @@ Given a Ghost Legs diagram, find out which top label is connected with which bot
 
   * First I create a list of top or start points, a list of bottom of end points, and a list of list where each sublist contains 
   a line of the Ghost Legs diagram.
+```
+w, h = [int(i) for i in input().split()]
+top = []
+bottom = []
+legs = []
+for i in range(h):
+    line = input()
+    if i == 0:
+        top.append(line)
+        top = list(top[0].replace(' ',''))
+    elif i == h-1:
+        bottom.append(line)
+        bottom = list(bottom[0].replace(' ', ''))
+    else:
+        line = line.replace('|--|', '|--  |')
+        line = line.split('  ')
+        legs.append(line)
+```
+Here, the line ```line = line.replace('|--|', '|--  |')``` is to extract better the connection between two legs in the diagram, so one line will be converted to a list as follow and we can keep track of the connection easily
+
+```|  |  |``` -> ```['|', '|', '|']```
+
+```|--|  |``` -> ```['|--', '|', '|']```
+
+```|  |--|``` -> ```['|', '|--', '|']```
+
+ * Now we will take every start point and traverse the Ghost Legs diagram to get its end point. the point will jump to its adjencent legs depend on whether there is a connection between those two legs.
+```
+result = []
+for i in range(len(top)):
+    pair = ''
+    pair += top[i]
+    end = i
+    for j in range(len(legs)):
+        if len(legs[j][end]) == 3:
+            end = end + 1
+        elif end != 0:
+            if len(legs[j][end-1]) == 3:
+                end = end - 1
+    pair += bottom[end]
+    result.append(pair)
+```
