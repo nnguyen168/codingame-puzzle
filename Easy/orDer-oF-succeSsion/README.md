@@ -4,6 +4,8 @@
 
 The original content could be found on CodinGame website at [here](https://www.codingame.com/ide/puzzle/order-of-succession)
 
+![Royal Family Tree](https://github.com/nnguyen168/codingame-puzzle/blob/master/Easy/orDer-oF-succeSsion/royal-tree.jpg)
+
 The goal is to generate the order of succession to the British throne given a list of people. The order is as follow:
 From a descendant A, the next in the order is A’s first child B.
 Then, the next one is B’s first child C if any and so on.
